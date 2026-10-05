@@ -1,0 +1,212 @@
+/* POINTLESS core: base styles. "Cheerful dysfunctional intranet": cream paper, thick outlines, sticker shadows.
+ * Engine-owned (shell, module window, default narrator, fx, crash card). The Lobby agent adds core/ui-*.css. */
+:root {
+  --pm-cream: #fff3d6;
+  --pm-paper: #fffaf0;
+  --pm-ink: #2b2438;
+  --pm-mint: #8be0c0;
+  --pm-coral: #ff8d7a;
+  --pm-mustard: #ffd166;
+  --pm-lilac: #c9b6f6;
+  --pm-sky: #9fd4ff;
+  --pm-focus: #5b2fe0;
+  --pm-radius: 14px;
+  --pm-shadow: 4px 4px 0 var(--pm-ink);
+  --pm-font: ui-rounded, "Nunito", "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--pm-ink);
+  font-family: var(--pm-font);
+  font-size: 16px;
+  line-height: 1.4;
+  background-color: var(--pm-cream);
+  background-image: radial-gradient(rgba(43, 36, 56, 0.13) 1px, transparent 1.4px);
+  background-size: 18px 18px;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--pm-focus); outline-offset: 2px; }
+.pm-sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+.pm-shell { max-width: 1100px; margin: 0 auto; padding: 12px 12px var(--pm-narr-space, 176px); position: relative; }
+.pm-shell.pm-narr-collapsed { --pm-narr-space: 80px; }
+@media (min-width: 1500px) { .pm-shell { max-width: 1240px; } }
+/* short viewports (landscape phones): the narrator must not eat a third of the screen */
+@media (max-height: 600px) {
+  .pm-shell { --pm-narr-space: 112px; }
+  .pm-shell.pm-narr-collapsed { --pm-narr-space: 72px; }
+}
+
+/* chunky button used by core UI (modules style their own, prefixed) */
+.pm-btn {
+  appearance: none; cursor: pointer;
+  background: var(--pm-paper);
+  border: 3px solid var(--pm-ink);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-weight: 800;
+  box-shadow: 2px 2px 0 var(--pm-ink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.pm-btn:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--pm-ink); }
+.pm-btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--pm-ink); }
+
+/* ---- module window ---- */
+.pm-modwin {
+  margin: 8px 0 0;
+  background: var(--pm-paper);
+  border: 3px solid var(--pm-ink);
+  border-radius: 18px;
+  box-shadow: 6px 6px 0 var(--pm-ink);
+  overflow: hidden;
+  overflow: clip;              /* rounded corners still clip, but sticky children can stick to the viewport */
+}
+.pm-titlebar {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 8px 12px;
+  background: var(--pm-mustard);
+  border-bottom: 3px solid var(--pm-ink);
+}
+.pm-title { margin: 0; flex: 1 1 140px; min-width: 0; font-size: 1.05rem; font-weight: 900; overflow-wrap: anywhere; }
+.pm-meh {
+  background: var(--pm-paper); border: 2px solid var(--pm-ink); border-radius: 999px;
+  padding: 2px 12px; font-weight: 900; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.pm-modbody { background: var(--pm-paper); position: relative; z-index: 0; isolation: isolate; }
+/* A module is a guest: contain layout+paint makes the root the containing block for its position:fixed children and clips them to it,
+ * and isolation keeps its z-index values (even 9999) inside the root, so it can never cover the title bar (Exit, Mute) or Management. */
+.pm-root {
+  position: relative;
+  min-height: 420px;
+  padding: 12px;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;            /* clip (not hidden) so the root is not a scroll container: position:sticky inside a module works */
+  contain: layout paint;
+  isolation: isolate;
+}
+.pm-root:focus { outline: none; }
+
+/* ---- crash shield / fatal cards ---- */
+.pm-crash, .pm-fatal {
+  max-width: 520px; margin: 24px auto; padding: 18px 20px; text-align: center;
+  background: var(--pm-paper); border: 3px solid var(--pm-ink); border-radius: var(--pm-radius); box-shadow: var(--pm-shadow);
+}
+.pm-fatal { margin: 24px auto; background: var(--pm-coral); }
+.pm-crash-emoji { font-size: 3rem; }
+.pm-crash-title { margin: 4px 0 8px; font-size: 1.25rem; }
+.pm-crash-details { text-align: left; margin: 12px 0; }
+.pm-crash-pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.8rem; background: #fff; border: 2px solid var(--pm-ink); border-radius: 8px; padding: 8px; max-height: 220px; overflow: auto; }
+
+/* ---- dev bar ---- */
+.pm-devbar {
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  background: var(--pm-ink); color: var(--pm-cream);
+  border-radius: 10px; padding: 6px 10px; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.04em;
+}
+.pm-devbar span { flex: 1 1 auto; }
+.pm-devbtn { font-size: 0.75rem; padding: 1px 10px; color: var(--pm-ink); }
+.pm-devbad { background: var(--pm-coral); }
+.pm-devdiag {
+  margin: 6px 0 0; padding: 8px 10px; max-height: 220px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  background: #fff; color: var(--pm-ink); border: 2px solid var(--pm-ink); border-radius: 8px; font-size: 0.75rem;
+}
+
+/* ---- narrator (default renderer; Lobby may restyle .pm-narr-*) ---- */
+.pm-narrator {
+  position: fixed; left: 12px; bottom: 12px; z-index: 50;
+  width: min(430px, calc(100vw - 24px));
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 10px 10px 12px;
+  background: var(--pm-lilac);
+  border: 3px solid var(--pm-ink); border-radius: 18px; box-shadow: var(--pm-shadow);
+}
+.pm-narr-avatar {
+  flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.6rem;
+  background: var(--pm-mint); border: 3px solid var(--pm-ink);
+}
+.pm-narr-main { flex: 1 1 auto; min-width: 0; }
+.pm-narr-who { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+.pm-narr-bubble {
+  position: relative;
+  background: #fff; border: 2px solid var(--pm-ink); border-radius: 12px;
+  padding: 6px 10px; min-height: 2.8em; font-size: 0.95rem; line-height: 1.3;
+  max-height: 7.2em; overflow: auto;
+  transition: opacity 0.4s ease;
+}
+.pm-narr-quiet { opacity: 0.62; }
+.pm-narr-toggle {
+  flex: 0 0 auto; width: 28px; height: 28px; padding: 0; line-height: 1;
+  background: var(--pm-paper); border: 2px solid var(--pm-ink); border-radius: 50%; cursor: pointer; font-weight: 900;
+}
+.pm-narrator.pm-collapsed { width: auto; padding: 6px; }
+.pm-narrator.pm-collapsed .pm-narr-main { display: none; }
+.pm-narrator.pm-collapsed .pm-narr-avatar { width: 38px; height: 38px; font-size: 1.3rem; }
+
+/* default panel while a module is open (dev mode, or if the Lobby UI is absent): slimmer so less of the stage hides underneath */
+.pm-in-module { --pm-narr-space: 112px; }
+.pm-in-module .pm-narrator { padding: 6px 8px; gap: 8px; }
+.pm-in-module .pm-narrator:not(.pm-collapsed) .pm-narr-avatar { width: 38px; height: 38px; font-size: 1.3rem; }
+.pm-in-module .pm-narr-bubble { min-height: 0; padding: 3px 8px; font-size: 0.84rem; line-height: 1.25; max-height: 3.8em; }
+.pm-in-module .pm-narr-who { margin-bottom: 1px; }
+
+/* ---- fx layer ---- */
+.pm-fx { position: fixed; inset: 0; z-index: 100; pointer-events: none; overflow: hidden; }
+.pm-confetti { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pm-float {
+  position: absolute; transform: translate(-50%, -50%);
+  background: var(--pm-mustard); color: var(--pm-ink);
+  border: 2px solid var(--pm-ink); border-radius: 999px; padding: 1px 10px;
+  font-weight: 900; font-size: 0.95rem; white-space: nowrap; box-shadow: 2px 2px 0 var(--pm-ink);
+  animation: pm-float-up 1.4s ease-out forwards;
+}
+.pm-float-loss { background: var(--pm-coral); }
+.pm-float-still { animation: pm-fade 1.1s ease-out forwards; }
+@keyframes pm-float-up {
+  0% { opacity: 0; transform: translate(-50%, -30%) scale(0.7); }
+  15% { opacity: 1; transform: translate(-50%, -70%) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -210%) scale(1); }
+}
+@keyframes pm-fade { 0% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+.pm-toasts {
+  position: absolute; right: 12px; top: 12px;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+  max-width: min(360px, calc(100vw - 24px));
+}
+.pm-toast {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--pm-paper); color: var(--pm-ink);
+  border: 3px solid var(--pm-ink); border-radius: var(--pm-radius); box-shadow: var(--pm-shadow);
+  padding: 8px 12px;
+  animation: pm-toast-in 0.25s ease-out;
+}
+.pm-toast-achievement { background: var(--pm-mustard); }
+.pm-toast-icon { font-size: 1.7rem; }
+.pm-toast-title { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.pm-toast-text { font-weight: 800; }
+.pm-toast-desc { font-size: 0.8rem; opacity: 0.85; }
+@keyframes pm-toast-in { from { transform: translateX(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---- motion preferences ---- */
+.pm-reduce-motion *, .pm-reduce-motion *::before, .pm-reduce-motion *::after {
+  animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---- small screens ---- */
+@media (max-width: 600px) {
+  .pm-shell { padding-left: 8px; padding-right: 8px; }
+  .pm-narrator { left: 6px; right: 6px; bottom: 6px; width: auto; }
+  .pm-narrator.pm-collapsed { right: auto; }
+  .pm-narr-bubble { font-size: 0.88rem; max-height: 6em; }
+  .pm-root { padding: 8px; }
+  .pm-toasts { right: 6px; top: 6px; }
+}
