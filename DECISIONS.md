@@ -96,7 +96,7 @@ Known and deferred (from the triage and final agents): on desktop, Management's 
 
 ## 6. Where the evidence lives
 
-- **This conversation:** `C:\Users\Katie\.claude\projects\C--Users-Katie-Documents-Claude-Random\` - `a545f0bb-...jsonl` (original session), `6edbe5ee-...jsonl`, and the latest session file.
+- **This conversation:** `.claude\projects\<project-folder>\` - `a545f0bb-...jsonl` (original session), `6edbe5ee-...jsonl`, and the latest session file.
 - **The logic as code:** `...\a545f0bb-...\workflows\scripts\pointless-arcade-wf_4d860517-64f.js` (overnight build, including the governor thresholds) and `...-finish-wf_f327204c-99f.js`; the continuation is `finish2.js` in the latest session's scratchpad.
 - **Every agent prompt, tool call and result:** `...\a545f0bb-...\subagents\workflows\wf_4d860517-64f\` (journal + 477 agent transcripts, ~642 MB); the finishing runs are `wf_f327204c-99f` and, in the latest session, `wf_bdfd5bfc-551`.
 - **In this folder:** `SPEC.md`, `VOICE.md`, `design/*.md` (33 merged briefs), `reports/` (QA output, `run1-engine-issues.json`, `prior-findings/`, `engine-triage.md`, `FINAL-REPORT.md`).
