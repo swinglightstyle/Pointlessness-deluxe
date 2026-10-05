@@ -89,7 +89,7 @@ Every department hides things, and the Trophy Cabinet keeps a count of the ones 
 ## For the curious (developers)
 
 - `index.html` is the entry point; `core/` is the engine and Lobby, `content/` holds global lines, achievements and shop items, `games/` holds one file per module.
-- `SPEC.md` is the technical contract, `VOICE.md` is the comedy bible, `TESTING.md` covers QA, and `reports/FINAL-REPORT.md` is the hand-over note.
+- `SPEC.md` is the technical contract, `VOICE.md` is the comedy bible, `TESTING.md` covers QA.
 - Tools (Node, run from this folder): `node tools\build.js`, `node tools\lint.js`, `node tools\selftest.js <id|lobby>`, `node tools\shot.js <id|lobby>`, `node tools\realcheck.js`, `node tools\coretest.js`.
 - URL extras: `?dev=<id>` runs one module on its own, `?mute=1` silences it, `?nostorage=1` forgets everything on reload.
 

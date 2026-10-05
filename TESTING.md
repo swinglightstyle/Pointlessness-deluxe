@@ -1,6 +1,6 @@
 # TESTING.md - how to build and verify a module (or the Lobby) without a person watching
 
-Everything runs from the project root (`C:\Users\Katie\Documents\Claude Random\pointless-arcade`) in Windows PowerShell 5.1.
+Everything runs from the project root (the folder containing `index.html`) in Windows PowerShell 5.1.
 There are no browser tools for agents: you verify with the node tools in `tools/`, which drive headless Edge (Chrome fallback).
 Many agents work in the same folder at the same time. Every tool uses its own temp browser profile, so running them in parallel is safe.
 
